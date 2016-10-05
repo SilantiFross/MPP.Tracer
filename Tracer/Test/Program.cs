@@ -25,6 +25,8 @@ namespace Test
                 thread.Start(5);
             }
 
+            TestMethod5();
+
             foreach (var thread in threads)
             {
                 thread.Join();
@@ -44,6 +46,42 @@ namespace Test
             for (var i = 0; i < (int)value; i++)
             {
                 testInt += i;
+            }
+            TestMethod3(10);
+            Tracer.StopTrace();
+        }
+
+        private static void TestMethod3(object value)
+        {
+            for (int i = 0; i < (int)value; i++)
+            {
+                Tracer.StartTrace();
+                VoidMethod();
+                Tracer.StopTrace();
+            }
+        }
+
+        private static void TestMethod4()
+        {
+            Tracer.StartTrace();
+            Thread.Sleep(10);
+            Tracer.StopTrace();
+        }
+
+        private static void VoidMethod()
+        {
+            Tracer.StartTrace();
+            Thread.Sleep(10);
+            Tracer.StopTrace();
+        }
+
+        private static void TestMethod5()
+        {
+            Tracer.StartTrace();
+            for (int i = 0; i < 5; i++)
+            {
+                var thread = new Thread(TestMethod4);
+                thread.Start();
             }
             Tracer.StopTrace();
         }
